@@ -41,6 +41,32 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  // Render activities in the list
+  function renderActivities(activities) {
+    activitiesList.innerHTML = "";
+
+    Object.entries(activities).forEach(([name, activity]) => {
+      const card = document.createElement("div");
+      card.className = "activity-card";
+
+      card.innerHTML = `
+        <h4>${name}</h4>
+        <p><strong>Description:</strong> ${activity.description}</p>
+        <p><strong>Schedule:</strong> ${activity.schedule}</p>
+        <p><strong>Max Participants:</strong> ${activity.max_participants}</p>
+        <div class="participants-section">
+          <strong>Participants:</strong>
+          <ul class="participants-list">
+            ${activity.participants.length === 0
+              ? '<li class="no-participants">No participants yet.</li>'
+              : activity.participants.map(email => `<li>${email}</li>`).join("")}
+          </ul>
+        </div>
+      `;
+      activitiesList.appendChild(card);
+    });
+  }
+
   // Handle form submission
   signupForm.addEventListener("submit", async (event) => {
     event.preventDefault();
